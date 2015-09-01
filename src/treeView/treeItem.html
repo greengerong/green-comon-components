@@ -1,0 +1,7 @@
+<i ng-click="itemExpended(item, $event);" class="fa" ng-class="{'fa-minus': !isLeaf(item)&& item.$$isExpend, 'fa-plus': !isLeaf(item)&&!item.$$isExpend, 'fa-leaf': isLeaf(item)}"></i>
+<input id="checkItem{{$index}}" type="checkbox" ng-model="item.$$isChecked" class="check-box" ng-if="canChecked" ng-change="warpCallback('itemCheckedChanged', item, $event)">
+<span class='text-field' ng-click="warpCallback('itemClicked', item, $event);">{{item[textField]}}</span>
+<ul ng-if="!isLeaf(item)" ng-show="item.$$isExpend">
+    <li ng-repeat="item in item.children" ng-include="'./treeItem.html'">
+    </li>
+</ul>
