@@ -16,7 +16,8 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngTouch',
-        'green.common.components.title'
+        'green.common.components.title',
+        'green.common.components.treeView'
     ])
     .config(function($routeProvider) {
         $routeProvider
@@ -24,6 +25,11 @@ angular
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl',
                 title: "main page"
+            })
+            .when('/treeView', {
+                templateUrl: 'views/treeView.html',
+                controller: 'TreeViewCtrl',
+                title: "Tree View Demo"
             })
             .when('/about', {
                 templateUrl: 'views/about.html',

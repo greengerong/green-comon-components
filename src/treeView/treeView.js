@@ -1,21 +1,40 @@
 (function(golbal, angular, undefined) {
     angular.module("green.common.components.treeView", [])
-        .directive('treeView', [function() {
+        .constant('treeViewConfig', {
+            itemExpendIcon: 'fa fa-minus',
+            itemCollapseIcon: 'fa fa-plus',
+            itemLeafIcon: 'fa fa-leaf',
+            itemTemplateUrl: '/treeItem.html'
+        })
+        .directive('treeView', ['treeViewConfig', function(treeViewConfig) {
 
             return {
-                restrict: 'E',
-                templateUrl: './treeView.html',
+                restrict: 'EA',
+                templateUrl: '/treeView.html',
                 scope: {
                     treeData: '=',
                     canChecked: '=',
                     textField: '@',
+                    iconField: '@',
                     itemClicked: '&',
-                    itemCheckedChanged: '&'
+                    itemCheckedChanged: '&',
+                    itemTemplateUrl: '@'
                 },
                 controller: ['$scope', function($scope) {
+                    $scope.defaultItemTemplateUrl = treeViewConfig.itemTemplateUrl;
                     $scope.itemExpended = function(item, $event) {
                         item.$$isExpend = !item.$$isExpend;
                         $event.stopPropagation();
+                    };
+
+                    $scope.getItemIcon = function(item) {
+                        var isLeaf = $scope.isLeaf(item);
+
+                        if (isLeaf) {
+                            return treeViewConfig.itemLeafIcon;
+                        }
+
+                        return item.$$isExpend ? treeViewConfig.itemExpendIcon : treeViewConfig.itemCollapseIcon;
                     };
 
                     $scope.isLeaf = function(item) {
